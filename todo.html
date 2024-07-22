@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <link rel="stylesheet" href="todo.css">
+</head>
+<body>
+    <div class="todo-wrapper">
+        <div class="todoContainer">
+            <h1 class="title">To-Do List <i class="fa-solid fa-list"></i></h1>
+            <input type="text" name="" id="note" placeholder="Add your note here">
+            <button id="submitBtn" onclick="addTask()">Submit</button>
+            <ul class="noteList" id="noteList">
+                <li>Your Task Will Show Here... <span>x</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const InputBox = document.getElementById('note');
+        const submitBtn = document.getElementById('submitBtn');
+        const noteList = document.getElementById('noteList');
+
+        function addTask() {
+            if(InputBox.value === ''){
+                alert('You must write something!')
+            }
+            else{
+                let li = document.createElement('li');
+               
+                li.innerHTML = InputBox.value;                
+                noteList.appendChild(li);
+                let span = document.createElement('span');                            
+                span.innerHTML ='x';
+                li.appendChild(span);                
+            }
+            InputBox.value = '';
+            saveData();
+        }
+
+        noteList.addEventListener('click', function(e){
+            if(e.target.tagName === 'LI'){
+                e.target.classList.toggle('Checked');
+                saveData();
+            }
+            else if(e.target.tagName === 'SPAN'){ 
+                e.target.parentElement.remove();
+                saveData();
+            }
+        },false);
+
+        function saveData(){
+            localStorage.setItem('data', noteList.innerHTML);
+        }
+
+        function showData(){
+            noteList.innerHTML = localStorage.getItem('data');
+        }
+
+        showData();
+    </script>
+</body>
+</html>
